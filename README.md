@@ -2,73 +2,97 @@
 
 Private Composer package for reusable PHPMaker 2026 common functions.
 
-This package intentionally uses **plain global functions** so existing PHPMaker code stays simple.
-
-No helper classes, no `use` statements and no project namespace setup are required.
-
-## Usage in PHPMaker
-
-After installing the package, call the functions directly:
+The package intentionally uses **plain global functions** so existing PHPMaker code stays simple:
 
 ```php
 $mobile = ValidateMobile($input);
-
-if ($mobile === false) {
-    return ApiError("Invalid Mobile", "Enter a valid mobile number.");
-}
-
-return ApiSuccess("Valid mobile", [
-    "mobile" => $mobile,
-    "masked" => MaskString($mobile),
-]);
 ```
 
-Existing code can continue to use the same function names.
+No helper classes, no `use` statements, and no project namespace setup are required.
 
-## Install
+## Version
 
-Add the private repository to the PHPMaker project's `composer.json`:
+Current stable release: **v1.0.0**
+
+For PHPMaker projects, install the fixed release instead of `dev-main`:
+
+```bash
+composer require bishu/common-function:1.0.0
+```
+
+This prevents future breaking changes on `main` from affecting older projects.
+
+## Private GitHub repository
+
+Use the private repository as a Composer VCS repository:
 
 ```json
 {
-    "repositories": [
-        {
+    "repositories": {
+        "bishu-common-function": {
             "type": "vcs",
-            "url": "git@github.com:bishu/CommonFunction.git"
+            "url": "https://github.com/bishu/CommonFunction.git"
         }
-    ]
+    }
 }
 ```
 
-Then run:
+GitHub authentication should be configured globally in Composer and should not be stored in the PHPMaker project.
 
-```bash
-composer require bishu/common-function:dev-main
+## Source structure
+
+```text
+src/
+├── Internal.php
+├── Validation.php
+├── String.php
+├── Api.php
+├── Image.php
+├── Network.php
+├── Logging.php
+├── Session.php
+├── Captcha.php
+├── Payment.php
+└── Html.php
 ```
 
-Composer automatically loads `src/CommonFunction.php`.
+Composer loads these files automatically.
 
 ## Included public functions
 
-- `PortStatus()`
-- `ApiError()`
-- `ApiSuccess()`
+### Validation
+
 - `ValidateAadhaar()`
 - `ValidateName()`
 - `ValidateMobile()`
 - `ValidatePan()`
 - `ValidateEpic()`
 - `ValidateVehicleRegistration()`
+
+### String / normalization
+
 - `NormalizeAlphaNumeric()`
-- `NormalizeImageBase64()`
-- `MaskString()`
 - `NormalizeNullableString()`
+- `MaskString()`
+
+### API / JSON
+
+- `ApiError()`
+- `ApiSuccess()`
 - `JsonClientUrl()`
 - `JsonResponseDecode()`
+
+### Image / network / utilities
+
+- `NormalizeImageBase64()`
+- `PortStatus()`
 - `LogCustomError()`
 - `ReleaseSession()`
 - `SolveCaptcha()`
 - `GenerateUpiQr()`
+
+### HTML
+
 - `HtmlExtractInputValue()`
 - `HtmlExtractAttribute()`
 - `HtmlExtractStyledTagText()`
@@ -94,14 +118,25 @@ Functions that need PHPMaker features internally resolve and reuse PHPMaker 2026
 
 PHPMaker's generated `phpfn.php` is **not copied** into this repository.
 
-## Main rule
-
-Keep reusable functions in `src/CommonFunction.php` and call them normally from PHPMaker:
+## Usage in PHPMaker
 
 ```php
-ValidateMobile($input);
-ValidatePan($pan);
-NormalizeNullableString($value, 100);
-JsonResponseDecode($response);
-LogCustomError("api", "Request failed", $context);
+$mobile = ValidateMobile($input);
+
+if ($mobile === false) {
+    return ApiError("Invalid Mobile", "Enter a valid mobile number.");
+}
+
+return ApiSuccess("Valid mobile", [
+    "mobile" => $mobile,
+    "masked" => MaskString($mobile),
+]);
 ```
+
+## Versioning rule
+
+- `1.0.x` — bug fixes without breaking existing calls
+- `1.x.0` — new backwards-compatible functions/features
+- `2.0.0` — breaking changes such as changing return values, parameters, or removing functions
+
+Do not use `dev-main` in existing production PHPMaker projects when a stable tagged release is available.
