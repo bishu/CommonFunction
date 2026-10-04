@@ -10,7 +10,17 @@
     },
     "autoload": {
         "files": [
-            "src/CommonFunction.php"
+            "src/Internal.php",
+            "src/String.php",
+            "src/Validation.php",
+            "src/Api.php",
+            "src/Image.php",
+            "src/Network.php",
+            "src/Logging.php",
+            "src/Session.php",
+            "src/Captcha.php",
+            "src/Payment.php",
+            "src/Html.php"
         ]
     },
     "config": {
