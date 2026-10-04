@@ -1,18 +1,16 @@
 {
     "name": "bishu/common-function",
-    "description": "Reusable common helper functions for PHPMaker 2026 projects.",
+    "description": "Simple reusable common functions for PHPMaker 2026 projects.",
     "type": "library",
     "license": "proprietary",
     "require": {
         "php": ">=8.2",
-        "monolog/monolog": "^3.0"
+        "monolog/monolog": "^3.0",
+        "endroid/qr-code": "^6.0"
     },
     "autoload": {
-        "psr-4": {
-            "Bishu\\CommonFunction\\": "src/"
-        },
         "files": [
-            "src/functions.php"
+            "src/CommonFunction.php"
         ]
     },
     "config": {
