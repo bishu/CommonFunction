@@ -59,6 +59,20 @@ function ValidateEpic(string $value): string|false
     return preg_match('/^[A-Z0-9]{10}$/', $value) === 1 ? $value : false;
 }
 
+function ValidateIfsc(string $value): string|false
+{
+    $value = strtoupper(
+        preg_replace('/\s+/', '', trim($value)) ?? ""
+    );
+
+    return preg_match(
+        '/^[A-Z]{4}0[A-Z0-9]{6}$/',
+        $value
+    ) === 1
+        ? $value
+        : false;
+}
+
 function ValidateVehicleRegistration(string $value): string|false
 {
     $value = strtoupper(NormalizeAlphaNumeric($value));
