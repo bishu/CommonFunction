@@ -101,6 +101,18 @@ Composer loads these files automatically.
 - `NormalizeHtmlStyle()`
 - `CleanHtmlText()`
 
+## Shared development and contribution policy
+
+This private library is the central place for **general-purpose PHP functions shared across the CashSMS, CRM, and future PHPMaker projects**. Both `bishu/CashSMS-PhpMaker` and `bishu/CRM-PhpMaker` may contribute reusable functions here. It is **not** an Android dependency.
+
+- **Reuse before adding:** inspect PHPMaker built-in functions and this library's existing helpers; avoid duplicate function names or overlapping behavior.
+- **Shared code here, project-specific code there:** contribute reusable validation, normalization, API/JSON, utility, or formatting logic under `src/`. Leave application database queries, credentials, business rules, API routes, UI, and project-specific configuration in the corresponding application repository.
+- **Maintain public API compatibility:** preserve existing function signatures and behavior where possible; document changes to return values and dependencies. Follow the versioning rules below when choosing the next release.
+- **Use Composer's file autoload:** add helpers to an existing appropriate `src/*.php` file when possible. If introducing a new source file, add it to `composer.json` under `autoload.files`. Do not copy generated PHPMaker `phpfn.php` or project files into this repository.
+- **Validate and commit independently:** test compatible PHP versions and relevant callers where possible. Commit shared changes to **`bishu/CommonFunction/main`**, and commit any application integration separately to its own repository.
+- **Publish deliberately:** a new commit on `main` does **not** change already pinned projects. Create a new approved stable tag/version after validation, then explicitly update and test each consumer's Composer dependency. Do not change historical tags or silently replace pinned versions with `dev-main`.
+- **Protect sensitive information:** never commit API secrets, credentials, production customer data, project-specific signing keys, or Git authentication files.
+
 ## PHPMaker 2026 integration
 
 Functions that need PHPMaker features internally resolve and reuse PHPMaker 2026 built-ins such as:
