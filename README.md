@@ -1,6 +1,6 @@
 # bishu/common-function
 
-Private Composer package for reusable PHPMaker 2026 common functions.
+Composer package for reusable PHPMaker 2026 common functions.
 
 The package intentionally uses **plain global functions** so existing PHPMaker code stays simple:
 
@@ -14,6 +14,8 @@ No helper classes, no `use` statements, and no project namespace setup are requi
 
 Current stable release: **v1.0.0**
 
+**Unreleased (`main`):** `ValidateIfsc()` is implemented on `main` and covered by regression tests, but is **not** included in the `v1.0.0` release. A compatible minor release (proposed `v1.1.0`) must be tested, approved, tagged and published before pinned projects can install it.
+
 For PHPMaker projects, install the fixed release instead of `dev-main`:
 
 ```bash
@@ -22,7 +24,7 @@ composer require bishu/common-function:1.0.0
 
 This prevents future breaking changes on `main` from affecting older projects.
 
-## Private GitHub repository
+## GitHub repository (public)
 
 Use the private repository as a Composer VCS repository:
 
@@ -37,7 +39,7 @@ Use the private repository as a Composer VCS repository:
 }
 ```
 
-GitHub authentication should be configured globally in Composer and should not be stored in the PHPMaker project.
+This GitHub repository is public. Composer normally does not need GitHub credentials to download it. Never store authentication tokens in the PHPMaker project.
 
 ## Source structure
 
@@ -58,6 +60,14 @@ src/
 
 Composer loads these files automatically.
 
+## Validation regression test
+
+Run the IFSC validation checks from the repository root using PHP 8.2 or newer:
+
+```bash
+php tests/ValidationIfscTest.php
+```
+
 ## Included public functions
 
 ### Validation
@@ -67,6 +77,7 @@ Composer loads these files automatically.
 - `ValidateMobile()`
 - `ValidatePan()`
 - `ValidateEpic()`
+- `ValidateIfsc()` (`main` only until a new tagged release)
 - `ValidateVehicleRegistration()`
 
 ### String / normalization
@@ -103,7 +114,7 @@ Composer loads these files automatically.
 
 ## Shared development and contribution policy
 
-This private library is the central place for **general-purpose PHP functions shared across the CashSMS, CRM, and future PHPMaker projects**. Both `bishu/CashSMS-PhpMaker` and `bishu/CRM-PhpMaker` may contribute reusable functions here. It is **not** an Android dependency.
+This shared library is the central place for **general-purpose PHP functions shared across the CashSMS, CRM, and future PHPMaker projects**. Both `bishu/CashSMS-PhpMaker` and `bishu/CRM-PhpMaker` may contribute reusable functions here. It is **not** an Android dependency.
 
 - **Reuse before adding:** inspect PHPMaker built-in functions and this library's existing helpers; avoid duplicate function names or overlapping behavior.
 - **Shared code here, project-specific code there:** contribute reusable validation, normalization, API/JSON, utility, or formatting logic under `src/`. Leave application database queries, credentials, business rules, API routes, UI, and project-specific configuration in the corresponding application repository.
